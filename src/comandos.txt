@@ -1,0 +1,11 @@
+
+comando 1 (arqv de confg ts)
+npx tsc --init
+
+comando 2 (comando de compilação)
+npx init
+
+comando 3 (execução do arquivo)
+node nome-pasta-criada/nome-do-arquivo.js
+EX:
+node dist/server.js
