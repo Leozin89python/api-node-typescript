@@ -1,4 +1,4 @@
-const port = 3002
+const port = 3003
 
 const { uuid } = require('uuidv4')
 
@@ -14,9 +14,18 @@ app.use(express.urlencoded({
 /**valores a receber */
 const projects = []
 
-app.get('/projects',(request,response)=>{
-    const { title } = request.query
+function logRoutes(request,response,next)   {
+    const { method, url } = request
 
+    const route = `[${method.toUpperCase()}] ${url}`
+
+    console.log(route)
+    return next()
+} 
+
+app.use(logRoutes)
+
+app.get('/projects',logRoutes,(request,response)=>{
     /**valores obtidos*/
    return response.json(projects)
 })
@@ -32,7 +41,7 @@ app.post('/projects',(request,response)=>{
   const project = {
       id,
       title,
-      owner
+      owner 
   }
   /**obs*  como
    * a chave e os valores 
