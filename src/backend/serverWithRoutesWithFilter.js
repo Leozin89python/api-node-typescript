@@ -1,4 +1,4 @@
-const port = 3001
+const port = 3002
 
 const { uuid } = require('uuidv4')
 
@@ -14,14 +14,16 @@ app.use(express.urlencoded({
 /**valores a receber */
 const projects = []
 
-app.get('/projects',(req,res)=>{
+app.get('/projects',(request,response)=>{
+    const { title } = request.query
+
     /**valores obtidos*/
-   return res.json(projects)
+   return response.json(projects)
 })
 
-app.post('/projects',(req,res)=>{
+app.post('/projects',(request,response)=>{
   /**desestruturação de valores obtidos no corpo da requisição*/  
-  const {title, owner} = req.body
+  const {title, owner} = request.body
 
   /**id criado automaticamente para cada objeto no corpo da requisição*/
   const id = uuid()
@@ -42,20 +44,20 @@ app.post('/projects',(req,res)=>{
   projects.push(project)
 
   /**retorno da resposta como json */
-  return res.json(project)
+  return response.json(project)
 })
 
-app.put('/projects/:id',(req,res)=>{
+app.put('/projects/:id',(request,response)=>{
      /*id obtido como parametro no corpo da requisição*/
-   const { id } = req.params
+   const { id } = request.params
    
    /**desestruturação de valores obtidos no corpo da requisição*/  
-   const {  title, owner  } = req.body
+   const {  title, owner  } = request.body
    
    /**metodo de comparação de objetos pelo id*/
    const projectIndex = projects.findIndex(project => project.id === id)
    if(projectIndex < 0){
-       return res.status(400).json({ error:'project not found' })
+       return response.status(400).json({ error:'project not found' })
    }
    
    /**objeto a ser modificado*/
@@ -69,53 +71,23 @@ app.put('/projects/:id',(req,res)=>{
    projects[projectIndex] = project
 
    /**retorno do objeto alterado */
-   return res.json(project)
+   return response.json(project)
 })
 
-app.delete('/projects/:id',(req,res)=>{
+app.delete('/projects/:id',(request,response)=>{
    /**id a ser encontrado como parametro */
-   const { id } = req.params
+   const { id } = request.params
    
-   /**desestruturação de valores obtidos no corpo da requisição*/  
-   const { title, owner } = req.body
-   
-   /**objeto no corpo da requisição a ser deletado */
-   const project = {
-            id,
-            title,
-            owner
-   } 
 
     /**metodo de comparação de objetos pelo id*/
-   const projectIndex = projects.findIndex(project => {
-            project.id === id
-            if(!project.id){
-                return res.status(400).json({error:'object not found'})
-            }
-   })
+    const projectIndex = projects.findIndex(project => project.id === id)
+    if(projectIndex < 0){
+    return response.status(400).json({ error:'project not found' })
+    }
 
-    /**posição do objeto a partir da consulta, a ser modificado*/
-   projects[projectIndex] = project
-
-   /**metodo de exclusão pelo indice no array */
-   projects.splice(projects[projectIndex], 1)
-   return res.json({msg:'deleted with success'})
-
-
-   /**
-    * resposta do prof°
-    * 
-    * const { id } = req.params
-    * 
-    *const projectIndex = projects.findIndex(project => project.id === id)
-        if(projectIndex < 0){
-        return res.status(400).json({ error:'project not found' })
-        }
-    * 
-     projects.splice(projectIndex , 1)
-    * 
-    * return res.status(204).json([])
-    */
+    /**metodo de exclusão pelo indice no array */
+    projects.splice(projectIndex , 1)
+    return response.status(204).json([])
 })
 
 app.listen(port,() =>{
