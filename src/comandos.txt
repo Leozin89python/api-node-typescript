@@ -9,3 +9,6 @@ comando 3 (execução do arquivo)
 node nome-pasta-criada/nome-do-arquivo.js
 EX:
 node dist/server.js
+
+comando 4 (rodando como dev)
+npm run dev 
