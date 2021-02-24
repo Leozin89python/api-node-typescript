@@ -3,7 +3,7 @@ comando 1 (arqv de confg ts)
 npx tsc --init
 
 comando 2 (comando de compilação)
-npx init
+npx tsc
 
 comando 3 (execução do arquivo)
 node nome-pasta-criada/nome-do-arquivo.js
@@ -12,3 +12,38 @@ node dist/server.js
 
 comando 4 (rodando como dev)
 npm run dev 
+
+
+
+
+outros comandos:
+node dist/server.js
+ou 
+node server.js
+
+(onde os valores após 
+o comando 'node' são o path(caminho),
+da application para execução)
+
+npx knex  --knexFile knexFile.ts migrate:latest
+
+
+(com o código acima configurado no package.json)rode:
+npm run knex:migrate
+
+
+
+
+	instalations:
+
+npm init -y
+npm i typescript
+npm i express
+npm i @types/express
+npm i knex
+npm i sqlite3
+npm i ts-node-dev 
+ou
+npm i ts-node-dev -D
+
+
